@@ -1,7 +1,6 @@
 // src/app/page.tsx
 'use client'
 
-import React, { useEffect } from 'react'
 import useLandingAnimations from './useLandingAnimations.js'
 import './globals.css'
 import Link from 'next/link'

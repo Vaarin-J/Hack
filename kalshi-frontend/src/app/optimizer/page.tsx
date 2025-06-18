@@ -5,7 +5,20 @@ import gsap from 'gsap'
 import SplitType from 'split-type'
 import '../globals.css'
 
-const hardcodedBets: Record<string, any[]> = {
+
+type BetOption = {
+    range: string
+    percent: number
+  }
+  
+  type Bet = {
+    question: string
+    options: BetOption[]
+    timeLeft: string
+    totalVolume: string
+  }
+
+const hardcodedBets: Record<string, Bet[]> = {
     climate: [
       {
         question: "Will LA hit 80°F today?",
@@ -155,11 +168,13 @@ export default function OptimizerPage() {
   const [showCards, setShowCards] = useState(false)
   const [buttonSlid, setButtonSlid] = useState(false)
   const [query, setQuery] = useState("")
-  const [matchedBets, setMatchedBets] = useState<any[]>([])
+    const [matchedBets, setMatchedBets] = useState<Bet[]>([])
 
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+
+  
 
   useEffect(() => {
     const splitH1 = new SplitType('.optimizer-h1', { types: 'words,chars' })
