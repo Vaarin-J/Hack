@@ -1,4 +1,4 @@
-"""Business news stream using NewsAPI.
+"""Political news stream via NewsAPI.
 Requires environment variable NEWSAPI_KEY.
 """
 import os
@@ -7,14 +7,14 @@ from pathway import io
 
 NEWSAPI_KEY = os.getenv("NEWSAPI_KEY", "YOUR_API_KEY")
 
-class NewsSchema(pw.Schema):
+class PoliticalNewsSchema(pw.Schema):
     headline: str
     description: str
     publishedAt: str
 
-business_news = io.http.read(
-    url=f"https://newsapi.org/v2/top-headlines?category=business&apiKey={NEWSAPI_KEY}",
+political_news = io.http.read(
+    url=f"https://newsapi.org/v2/top-headlines?category=politics&apiKey={NEWSAPI_KEY}",
     refresh_interval_ms=30_000,
-    schema=NewsSchema,
+    schema=PoliticalNewsSchema,
     mode="replace",
 )

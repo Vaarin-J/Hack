@@ -1,4 +1,4 @@
-"""Business news stream using NewsAPI.
+"""Tech news stream via NewsAPI or fallback RSS.
 Requires environment variable NEWSAPI_KEY.
 """
 import os
@@ -7,14 +7,14 @@ from pathway import io
 
 NEWSAPI_KEY = os.getenv("NEWSAPI_KEY", "YOUR_API_KEY")
 
-class NewsSchema(pw.Schema):
+class TechNewsSchema(pw.Schema):
     headline: str
     description: str
     publishedAt: str
 
-business_news = io.http.read(
-    url=f"https://newsapi.org/v2/top-headlines?category=business&apiKey={NEWSAPI_KEY}",
+tech_news = io.http.read(
+    url=f"https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey={NEWSAPI_KEY}",
     refresh_interval_ms=30_000,
-    schema=NewsSchema,
+    schema=TechNewsSchema,
     mode="replace",
 )

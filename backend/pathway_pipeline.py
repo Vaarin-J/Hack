@@ -1,6 +1,11 @@
 import pathway as pw
 from pathway import io
 
+# External data streams
+from backend.data.news_stream import business_news
+from backend.data.tech_news_stream import tech_news
+from backend.data.political_news_stream import political_news
+
 # Schema definitions
 class KalshiSchema(pw.Schema):
     market_id: str
@@ -21,16 +26,11 @@ kalshi_markets = io.http.read(
     mode="replace"
 )
 
-# 2. Ingest business news (refreshed every 30s)
-news_articles = io.http.read(
-    url="https://newsapi.org/v2/top-headlines?category=business&apiKey=YOUR_API_KEY",
-    refresh_interval_ms=30000,
-    schema=NewsSchema,
-    mode="replace"
-)
+# 2. Combine business, tech and political news streams
+all_news = business_news.concat(tech_news, political_news)
 
 # 3. Chunk and embed news descriptions
-chunks = pw.llm.text.chunks(news_articles.description, chunk_size=200)
+chunks = pw.llm.text.chunks(all_news.description, chunk_size=200)
 embeddings = pw.llm.embed.embed(chunks)
 
 # 4. Build a vector index on the embedded chunks

@@ -1,0 +1,7 @@
+# Dependencies for Kalshi Weather Bot
+pathway
+streamlit
+requests
+langchain
+langchain-openai
+python-dotenv
